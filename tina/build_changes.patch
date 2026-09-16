@@ -1,0 +1,26 @@
+diff --git a/build/config.mk b/build/config.mk
+index 0fe18b3..f8487d5 100644
+--- a/build/config.mk
++++ b/build/config.mk
+@@ -61,7 +61,7 @@ include $(BUILD_SYSTEM)/product-config.mk
+ # Real boards should always be associated with an OEM vendor.
+ board_config_mk := \
+ 	$(strip $(wildcard \
+-		$(shell test -d target && find target -maxdepth 4 -path '*/$(TARGET_DEVICE)/BoardConfig.mk') \
++		$(shell test -d target && find -L target -maxdepth 4 -path '*/$(TARGET_DEVICE)/BoardConfig.mk') \
+ 	))
+ ifeq ($(board_config_mk),)
+   $(error No config file found for TARGET_DEVICE $(TARGET_DEVICE))
+diff --git a/build/product.mk b/build/product.mk
+index 62568ef..37ba319 100644
+--- a/build/product.mk
++++ b/build/product.mk
+@@ -28,7 +28,7 @@
+ # $(call ) isn't necessary.
+ #
+ define _find-tina-products-files
+-$(shell test -d target && find target -maxdepth 4 -name TinaProducts.mk)
++$(shell test -d target && find -L target -maxdepth 4 -name TinaProducts.mk)
+ endef
+ 
+ #
