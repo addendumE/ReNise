@@ -1,2 +1,7 @@
 pc_build
 .vscode
+.built
+.configured_*
+.prepared
+.quilt_checked
+.source_dir
