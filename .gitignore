@@ -1,5 +1,4 @@
 pc_build
-.vscode
 .built
 .configured_*
 .prepared
