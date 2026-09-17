@@ -105,7 +105,7 @@ int main()
     lv_init();
     lv_disp_t *disp = lv_disp_init();
     lv_indev_t *indev = lv_touch_init();
-
+    printf("start\n");
      while (1) {
         lv_timer_handler();
         usleep(5000);

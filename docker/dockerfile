@@ -1,0 +1,76 @@
+FROM ubuntu:14.04
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Ubuntu 14.04 EOL
+RUN rm -f /etc/apt/sources.list.d/*.list && \
+    cat > /etc/apt/sources.list <<'EOF'
+deb http://archive.ubuntu.com/ubuntu trusty main restricted universe multiverse
+deb http://archive.ubuntu.com/ubuntu trusty-updates main restricted universe multiverse
+deb http://security.ubuntu.com/ubuntu trusty-security main restricted universe multiverse
+EOF
+
+# Abilita applicazioni 32 bit
+RUN dpkg --add-architecture i386
+
+RUN apt-get update
+
+# Tool richiesti dal vecchio SDK
+RUN apt-get install -y \
+    gcc \
+    g++ \
+    binutils \
+    bzip2 \
+    flex \
+    bison \
+    bc \
+    gettext \
+    texinfo \
+    libncurses5-dev \ 
+    libssl-dev \
+    python \
+    perl \
+    make \
+    findutils \
+    grep \
+    diffutils \
+    unzip \
+    gawk \
+    util-linux \
+    subversion \
+    zlib1g-dev \
+    libc6-dev \
+    sudo \
+    git \
+    wget \
+    curl \
+    ca-certificates \
+    file \
+    xz-utils \
+    cpio \
+    rsync
+
+# Librerie per applicazioni host 32 bit
+RUN apt-get install -y \
+    libc6:i386 \
+    libstdc++6:i386 \
+    lib32ncurses5 \
+    lib32z1
+
+# Utente d1s UID/GID 1000
+RUN groupadd -g 1000 d1s && \
+    useradd -m -u 1000 -g 1000 -s /bin/bash d1s && \
+    echo "d1s ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/d1s && \
+    chmod 0440 /etc/sudoers.d/d1s
+
+# Workspace condiviso
+RUN mkdir -p /workspace && \
+    chown d1s:d1s /workspace
+
+ENV HOME=/home/d1s
+
+WORKDIR /workspace
+
+USER d1s
+
+CMD ["/bin/bash"]

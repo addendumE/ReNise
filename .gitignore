@@ -1,4 +1,5 @@
 pc_build
+build
 .built
 .configured_*
 .prepared
