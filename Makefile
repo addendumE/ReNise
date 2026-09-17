@@ -9,13 +9,21 @@ USE_SOURCE_DIR:=$(CURDIR)/source
 include $(BUILD_DIR)/package.mk
 include $(BUILD_DIR)/cmake.mk
 
+# Redirect build products and CMake metadata to the local 'build' directory
+PKG_BUILD_DIR:=$(CURDIR)/build
+CMAKE_SOURCE_DIR:=$(CURDIR)/source
+
 CMAKE_OPTIONS += \
 	-DLVGL_DIR=$(TOPDIR)/package/gui/littlevgl-8/lvgl
 
 define Package/$(PKG_NAME)
   SECTION:=multimedia
   TITLE:=renise
-  DEPENDS:= +libstdcpp +
+  DEPENDS:= +libstdcpp +libcdio +libalsa
+endef
+
+define Build/Prepare
+	mkdir -p $(PKG_BUILD_DIR)
 endef
 
 define Build/Configure

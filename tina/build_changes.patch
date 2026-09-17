@@ -11,6 +11,37 @@ index 0fe18b3..f8487d5 100644
  	))
  ifeq ($(board_config_mk),)
    $(error No config file found for TARGET_DEVICE $(TARGET_DEVICE))
+diff --git a/build/kernel-build.mk b/build/kernel-build.mk
+index c92205a..bd49a0c 100755
+--- a/build/kernel-build.mk
++++ b/build/kernel-build.mk
+@@ -175,7 +175,7 @@ endif
+   download: $(if $(LINUX_SITE),$(DL_DIR)/$(LINUX_SOURCE))
+   prepare: $(STAMP_CONFIGURED)
+   compile: $(LINUX_DIR)/.modules
+-	+$(MAKE) -C ../generic/image compile TARGET_BUILD=
++	+$(MAKE) -C $(TOPDIR)/target/allwinner/generic/image compile TARGET_BUILD=
+ 
+   oldconfig menuconfig nconfig: $(STAMP_PREPARED) $(STAMP_CHECKED) FORCE
+ 	rm -f $(LINUX_DIR)/.config.prev
+@@ -226,7 +226,7 @@ endif
+ 	fi
+ 
+   install: $(LINUX_DIR)/.image
+-	+$(MAKE) -C ../generic/image compile install TARGET_BUILD=
++	+$(MAKE) -C $(TOPDIR)/target/allwinner/generic/image compile install TARGET_BUILD=
+ 
+   clean: FORCE
+ 	if [ -d $(LINUX_DIR) ]; then \
+@@ -235,7 +235,7 @@ endif
+ 	rm -rf $(KERNEL_BUILD_DIR)
+ 
+   image-prereq:
+-	@+$(NO_TRACE_MAKE) -s -C ../generic/image prereq TARGET_BUILD=
++	@+$(NO_TRACE_MAKE) -s -C $(TOPDIR)/target/allwinner/generic/image prereq TARGET_BUILD=
+ 
+   prereq: image-prereq
+ 
 diff --git a/build/product.mk b/build/product.mk
 index 62568ef..37ba319 100644
 --- a/build/product.mk

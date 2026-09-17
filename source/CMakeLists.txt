@@ -89,6 +89,7 @@ endif()
 target_link_libraries(renise PRIVATE
     lvgl
     lv_drivers
+    cdio
 )
 if(USE_SDL)
     target_link_libraries(renise PRIVATE

@@ -2,14 +2,14 @@
 #include <unistd.h>
 
 
-#ifdef USE_SDL
+#if USE_SDL
 #include "lv_drivers/sdl/sdl.h"
 #else
 #include "lv_drivers/display/sunxifb.h"
 #include "lv_drivers/indev/evdev.h"
 #endif
 
-#ifdef USE_SDL
+#if USE_SDL
 lv_disp_t * lv_disp_init()
 {
     /*Linux frame buffer device init*/
@@ -47,7 +47,7 @@ lv_indev_t * lv_touch_init()
 }
 
 #else
-lv_disp_t * lv_disp_init(uint32_t rotated)
+lv_disp_t * lv_disp_init(uint32_t rotated=false)
 {
     /*Linux frame buffer device init*/
     sunxifb_init(rotated);
@@ -97,11 +97,26 @@ lv_indev_t * lv_touch_init()
 #endif
 
 
+#include <cdio/cdio.h>
+#include <stdio.h>
+void test()
+{
+CdIo_t *cd = cdio_open("/dev/cdrom", DRIVER_DEVICE);
+
+    if (!cd) {
+        fprintf(stderr, "Impossibile aprire il CD\n");
+    }
+
+    printf("CD aperto correttamente\n");
+
+    cdio_destroy(cd);
+}
 
 
 
 int main()
 {
+    test();
     lv_init();
     lv_disp_t *disp = lv_disp_init();
     lv_indev_t *indev = lv_touch_init();
